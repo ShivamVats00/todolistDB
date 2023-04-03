@@ -13,13 +13,20 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://Shivam-Vats:vats6207@cluster0.ck7mge6.mongodb.net/tpdolistDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(
-  console.log("MongoDB Connected with server")
-);
-// mongoose.connect("mongodb://127.0.0.1:27017/todolistDB")
+//from here
+const PORT = process.env.PORT || 3000;
+
+mongoose.set('strictQuery', false);
+
+const connectDB = async () => {
+   try {
+     const conn = await mongoose.connect(process.env.MONGO_URI);
+     console.log(`MongoDB Connected: ${conn.connection.host}');
+   } catch (error) {
+     console.log(error);
+     process.exit(1);
+   }
+ };
 
 
 //This is how we create mongoose Schema
